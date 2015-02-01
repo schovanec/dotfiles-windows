@@ -13,6 +13,9 @@ Enable-GitColors
 # Add git installation to the path to give us access to SSH
 Join-Path ${env:ProgramFiles(x86)} Git\bin | ? { Test-Path $_ } | % { $env:PATH += ";$_" }
 
+# Add our custom scripts directory to the path
+Join-Path $ProfileRoot scripts | ? { Test-Path $_ } | % { $env:PATH += ";$_" }
+
 # Include other scripts
 @(
     "aliases.ps1",
