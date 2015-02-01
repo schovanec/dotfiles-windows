@@ -7,11 +7,14 @@ Set-Alias subl (Join-Path ${env:ProgramFiles} "Sublime Text 3\subl.exe")
 # Import modules
 Import-Module posh-git
 
-# Set the prompt
-. (Join-Path $ProfileRoot prompt.ps1)
-
 # Make git output in colour
 Enable-GitColors
 
 # Add git installation to the path to give us access to SSH
 Join-Path ${env:ProgramFiles(x86)} Git\bin | ? { Test-Path $_ } | % { $env:PATH += ";$_" }
+
+# Include other scripts
+@(
+    "aliases.ps1",
+    "prompt.ps1"
+) | % { Join-Path $ProfileRoot $_ } | ? { Test-Path $_ } | % { . $_ }
