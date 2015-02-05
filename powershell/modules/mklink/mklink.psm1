@@ -1,42 +1,6 @@
 
 function GetNativeMethods {
-    Add-Type -PassThru -TypeDefinition @"
-        using System;
-        using System.Runtime.InteropServices;
-        namespace MkLink {
-            public class NativeMethods {
-                [DllImport("kernel32.dll", SetLastError=true, EntryPoint = "CreateSymbolicLink", CharSet = CharSet.Unicode)]
-                private static extern bool NativeCreateSymbolicLink(string lpSymlinkFileName, string lpTargetFileName, int dwFlags);
-
-                public static void CreateSymbolicLink(string lpSymlinkFileName, string lpTargetFileName, int dwFlags) 
-                {
-                    if (!NativeCreateSymbolicLink(lpSymlinkFileName, lpTargetFileName, dwFlags)) {
-                        throw new System.ComponentModel.Win32Exception(); 
-                    }
-                }
-
-                [DllImport("kernel32.dll", SetLastError = true, EntryPoint = "RemoveDirectory", CharSet = CharSet.Unicode)]
-                private static extern bool NativeRemoveDirectory(string lpPathName);
-
-                public static void RemoveDirectory(string lpPathName) 
-                {
-                    if (!NativeRemoveDirectory(lpPathName)) {
-                        throw new System.ComponentModel.Win32Exception(); 
-                    }
-                }
-
-                [DllImport("kernel32.dll", SetLastError = true, EntryPoint = "DeleteFile", CharSet = CharSet.Unicode)]
-                private static extern bool NativeDeleteFile(string lpFileName);
-
-                public static void DeleteFile(string lpFileName) 
-                {
-                    if (!NativeDeleteFile(lpFileName)) {
-                        throw new System.ComponentModel.Win32Exception(); 
-                    }
-                }
-            }
-        }
-"@
+    Add-Type -PassThru -Path (Join-Path $PSScriptRoot NativeMethods.cs)
 }
 
 function New-Symlink {
@@ -52,10 +16,10 @@ function New-Symlink {
         [ValidateNotNullOrEmpty()]
         [string]$TargetPath,
 
-        [Parameter(Position = 2, ParameterSetName = "File")]
+        [Parameter(Position = 2, Mandatory = $true, ParameterSetName = "File")]
         [switch]$File,
 
-        [Parameter(Position = 2, ParameterSetName = "Directory")]
+        [Parameter(Position = 2, Mandatory = $true, ParameterSetName = "Directory")]
         [switch]$Directory
     )
 
@@ -87,7 +51,7 @@ function New-Symlink {
 }
 
 function Remove-ReparsePoint {
-    [CmdletBinding(DefaultParameterSetName = "Path", SupportsShouldProcess = $true, ConfirmImpact = "High")]
+    [CmdletBinding(DefaultParameterSetName = "Path", SupportsShouldProcess = $true, ConfirmImpact = "Medium")]
     Param (
         [Parameter(ParameterSetName = "Path", Position = 0, Mandatory = $true, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true)]
         [string[]]$Path,
