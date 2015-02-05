@@ -1,2 +1,4 @@
 sublime-text/Local
 sublime-text/Backup
+sublime-text/**/*.cache
+sublime-text/**/*.last-run
