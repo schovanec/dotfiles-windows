@@ -50,6 +50,28 @@ function New-Symlink {
     }
 }
 
+function Test-ReparsePoint {
+    [CmdletBinding(DefaultParameterSetName = "Path")]
+    Param (
+        [Parameter(ParameterSetName = "Path", Position = 0, Mandatory = $true, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true)]
+        [string[]]$Path,
+
+        [Parameter(ParameterSetName = "LiteralPath", Position = 0, Mandatory = $true, ValueFromPipeline = $false, ValueFromPipelineByPropertyName = $true)]
+        [string[]]$LiteralPath
+    )
+
+    Process {
+        If ($PSCmdlet.ParameterSetName -eq "Path") {
+            $items = Get-Item -Path $Path
+        }
+        Else {
+            $items = Get-Item -LiteralPath $LiteralPath
+        }
+
+        $items | % { ($_.Attributes -band [IO.FileAttributes]::ReparsePoint) -ne 0 }
+    }
+}
+
 function Remove-ReparsePoint {
     [CmdletBinding(DefaultParameterSetName = "Path", SupportsShouldProcess = $true, ConfirmImpact = "Medium")]
     Param (
@@ -74,7 +96,7 @@ function Remove-ReparsePoint {
         ForEach ($item in $items) {
             If ($PSCmdLet.ShouldProcess($item, "Remove reparse point")) {
                 Try {
-                    If (-not $item.Attriutes -band [IO.FileAttributes]::ReparsePoint) {
+                    If (-not $item.Attributes -band [IO.FileAttributes]::ReparsePoint) {
                         Write-Error "The item is not a reparse point" -TargetObject $item
                     }
                     ElseIf ($item.Attributes -band [IO.FileAttributes]::Directory) {
@@ -92,4 +114,4 @@ function Remove-ReparsePoint {
     }
 }
 
-Export-ModuleMember New-Symlink, Remove-ReparsePoint
+Export-ModuleMember New-Symlink, Test-ReparsePoint, Remove-ReparsePoint
