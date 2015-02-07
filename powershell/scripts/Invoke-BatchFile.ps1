@@ -7,7 +7,7 @@ Param (
     $Parameters
 )
 
-cmd /c "`"$File`" $Parameters && set" | ForEach {
+cmd /c " `"$File`" $Parameters && set " | ForEach {
     If ($_ -match "^(.*?)=(.*)$") {
         Set-Content "Env:$($matches[1])" $matches[2]
     }
