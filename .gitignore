@@ -1,4 +1,8 @@
+# sublime text files which should not be checked in
 sublime-text/Local
 sublime-text/Backup
 sublime-text/**/*.cache
 sublime-text/**/*.last-run
+
+# exclude the "local" script file for powershell
+powershell/local.ps1

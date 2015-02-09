@@ -1,5 +1,6 @@
 $dotfilesRoot = Split-Path $PSScriptRoot
 $documentsPath = [Environment]::GetFolderPath('Personal')
+$gitHome = If ($env:HOME -ne $null) { $env:HOME } Else { ~ }
 
 Import-Module (Join-Path $dotfilesRoot powershell\modules\mklink)
 
@@ -10,4 +11,4 @@ New-SymLink (Join-Path $documentsPath WindowsPowerShell) (Join-Path $dotfilesRoo
 New-SymLink (Join-Path ${env:APPDATA} "Sublime Text 3") (Join-Path $dotfilesRoot sublime-text) -Directory
 
 # link git config files
-Get-ChildItem (Join-Path $dotfilesRoot git) -Filter .* | % { New-SymLink (Join-Path ~ $_.Name) $_.FullName -File }
+Get-ChildItem (Join-Path $dotfilesRoot git) -Filter .* | % { New-SymLink (Join-Path $gitHome $_.Name) $_.FullName -File }

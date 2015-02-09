@@ -19,5 +19,6 @@ Enable-GitColors
 # Include other scripts
 @(
     "aliases.ps1",
-    "prompt.ps1"
+    "prompt.ps1",
+    "local.ps1"
 ) | % { Join-Path $ProfileRoot $_ } | ? { Test-Path $_ } | % { . $_ }
