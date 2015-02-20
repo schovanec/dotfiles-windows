@@ -4,7 +4,7 @@
 Get-ChildItem Env: `
     | ? { $_.Name -match "VS\d+COMNTOOLS" } `
     | Sort-Object -Descending `
-    | % { Join-Path $_.Value VsDevCmd.bat } `
+    | % { Join-Path $_.Value ..\..\VC\vcvarsall.bat } `
     | ? { Test-Path $_ } `
     | Select-Object -First 1 `
-    | % { Invoke-BatchFile $_ }
+    | % { Invoke-BatchFile $_ $(if ([Environment]::Is64BitProcess) {'amd64'} else {'x86'}) }
