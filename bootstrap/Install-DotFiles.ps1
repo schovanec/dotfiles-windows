@@ -1,6 +1,6 @@
 $dotfilesRoot = Split-Path $PSScriptRoot
 $documentsPath = [Environment]::GetFolderPath('Personal')
-$gitHome = If ($env:HOME -ne $null) { $env:HOME } Else { ~ }
+$gitHome = If ($env:HOME -ne $null) { $env:HOME } Else { "~" }
 
 Import-Module (Join-Path $dotfilesRoot powershell\modules\mklink)
 
