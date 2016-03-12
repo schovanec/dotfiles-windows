@@ -18,6 +18,7 @@ $global:PromptTheme = @{
     PathColor = [ConsoleColor]::White
     NameColor = if (Get-IsAdminUser) { [ConsoleColor]::Red } else { [ConsoleColor]::Green }
     ForegroundColor = $Host.UI.RawUI.ForegroundColor
+    BackgroundColor = $Host.UI.RawUI.BackgroundColor
 }
 
 function prompt {
@@ -28,6 +29,7 @@ function prompt {
         $ShortPath = Get-ShortPath $pwd.ProviderPath
 
         $Host.UI.RawUI.ForegroundColor = $PromptTheme.ForegroundColor
+        $Host.UI.RawUI.BackgroundColor = $PromptTheme.BackgroundColor
 
         Write-Host '[' -NoNewLine -ForegroundColor $PromptTheme.BaseColor
         Write-Host "${UserName}@${HostName}" -NoNewLine -ForegroundColor $PromptTheme.NameColor
