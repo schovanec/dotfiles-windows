@@ -1,2 +1,2 @@
-# alias for starting sublime text
-Join-Path ${env:ProgramFiles} "Sublime Text 3\subl.exe" | ? { Test-Path $_ } | % { Set-Alias subl $_ }
+# alias for ssh
+Join-Path ${env:ProgramFiles} "Git\usr\bin\ssh.exe" | ? { Test-Path $_ } | % { Set-Alias ssh $_ }
