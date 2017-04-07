@@ -6,15 +6,9 @@ Import-Module posh-git
 # Make git output in colour
 Enable-GitColors
 
-# Execute newest visual studio command prompt batch file and 
-Get-ChildItem Env: `
-    | ? { $_.Name -match "VS\d+COMNTOOLS" } `
-    | Sort-Object -Descending `
-    | % { Join-Path $_.Value VsDevCmd.bat } `
-    | ? { Test-Path $_ } `
-    | Select-Object -First 1 `
-    | % { Invoke-BatchFile $_ $(if ([Environment]::Is64BitProcess) {'amd64'} else {'x86'}) }
-	
+# Execute newest visual studio command prompt batch file and
+Invoke-VsEnvironment
+
 # Include other scripts
 @(
     "aliases.ps1",
