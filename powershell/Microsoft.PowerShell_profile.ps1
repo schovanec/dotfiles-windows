@@ -3,6 +3,9 @@
 # Import modules
 Import-Module posh-git
 
+# Enabled "Solarized" Colors
+Set-SolarizedDarkColorDefaults
+
 # Make git output in colour
 Enable-GitColors
 
