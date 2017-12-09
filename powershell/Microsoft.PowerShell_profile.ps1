@@ -4,10 +4,13 @@
 Import-Module posh-git
 
 # Enabled "Solarized" Colors
-Set-SolarizedDarkColorDefaults
+#Set-SolarizedDarkColorDefaults
 
 # Make git output in colour
 Enable-GitColors
+
+# Set local for git and other unix commands
+$env:LC_ALL = "C.UTF-8"
 
 # Execute newest visual studio command prompt batch file and
 Invoke-VsEnvironment
